@@ -8,8 +8,19 @@
 import SwiftUI
 
 struct MovieListView: View {
+    
+    let urlSessionManager = URLSessionManager.shared
+    
+    @State private var movies: [Movie] = []
+    
     var body: some View {
-        Text("Movie List")
+        List(movies) { movie in
+            Text(movie.title)
+            
+            
+        }.task {
+            movies = try! await urlSessionManager.getMovies()
+        }
     }
 }
 

@@ -24,7 +24,6 @@ struct ContentView: View {
             Tab("Settings", systemImage: "gear") {
                 SettingsView()
             }
-
             Tab(role: .search) {
                 NavigationStack {
                     SearchView()
