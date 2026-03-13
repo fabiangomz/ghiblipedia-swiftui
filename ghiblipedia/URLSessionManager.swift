@@ -22,11 +22,11 @@ class URLSessionManager {
     
     
     func getMovies() async throws -> [Movie] {
-        guard let url = URL(string: "\(baseURL)/films") else {
+       /* guard let url = URL(string: "\(baseURL)/films") else {
             throw URLError(.badURL)
-        }
+        } */
         
-        let (data, response) = try await session.data(from: url)
+        let (data, response) = try await session.data(from: Constants.Urls.moviesUrl)
         
         guard let httpResponse = response as? HTTPURLResponse,
               (200..<300).contains(httpResponse.statusCode) else {
