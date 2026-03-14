@@ -55,7 +55,7 @@ struct MovieListView: View {
             // Importante usar navigation destination porque si no se cargan todas las vistas del stack
             .navigationDestination(for: Movie.self) {
                 movie in
-                FavoriteListView()
+                MovieDetailsView(movie: movie)
             }
             .navigationTitle("Movies")
             .searchable(text: Binding.constant(""), placement: .navigationBarDrawer(displayMode: .always), prompt: "Search")
