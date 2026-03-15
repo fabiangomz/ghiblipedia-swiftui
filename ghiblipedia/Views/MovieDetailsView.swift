@@ -10,6 +10,8 @@ import SwiftUI
 struct MovieDetailsView: View {
     
     let movie: Movie
+    @State private var viewModel = MovieDetailsViewModel()
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading) {
@@ -17,11 +19,13 @@ struct MovieDetailsView: View {
                     image in
                     image.resizable()
                         .aspectRatio(contentMode: .fill)
+                    
                 } placeholder: {
                     ProgressView()
                 }
                 .frame(height: 200)
                 .clipped()
+            
                 
                 HStack(alignment: .bottom) {
                     AsyncImage(url: URL(string: movie.image)) { image in
@@ -33,11 +37,13 @@ struct MovieDetailsView: View {
                     }
                     .frame(width: 100, height: 150)
                     .clipShape(RoundedRectangle(cornerRadius: 12))
+                    .shadow(radius: 12)
                     
                     VStack(alignment: .leading, spacing: 4) {
                         Text(movie.title)
                             .font(.title2)
                             .bold()
+                            .lineLimit(1)
                         Text(movie.originalTitle)
                             .font(.headline)
                             .foregroundStyle(.secondary)
@@ -76,10 +82,44 @@ struct MovieDetailsView: View {
     
                 }
                 .padding(.horizontal)
+
+              
+                   
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("People")
+                            .font(.title3)
+                            .fontWeight(.semibold)
+
+                        if viewModel.isLoading {
+                            ProgressView()
+                        } else if viewModel.people.isEmpty {
+                            Text("No people found.")
+                            .foregroundStyle(.secondary) } else {
+                            ForEach(viewModel.people) { person in
+                                HStack {
+                                    Image(systemName: "person.circle.fill")
+                                        .font(.largeTitle)
+                                        .foregroundStyle(.secondary)
+                                    VStack(alignment: .leading) {
+                                        Text(person.name)
+                                            .font(.headline)
+                                        Text("\(person.gender) - \(person.age)")
+                                            .font(.body)
+                                            .foregroundStyle(.secondary)
+                                    }
+                                }
+                                .padding(.vertical, 4)
+                            }
+                        }
+                        
+                    }
+                    .padding(.horizontal)
+                    .padding(.top, 8)
             }
-        
-            
-          
+            .padding(.bottom)
+        }
+        .task {
+            await viewModel.fetchPeople(from: movie.people)
         }
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
@@ -91,7 +131,7 @@ struct MovieDetailsView: View {
                 }
             }
         }
-        .ignoresSafeArea()
+        .ignoresSafeArea(edges: .top)
   
     }
 }
@@ -99,6 +139,8 @@ struct MovieDetailsView: View {
 #Preview {
     
     let movie = Movie(id: "1", title: "Title", originalTitle: "Original title", originalTitleRomanised: "Original title romanji", description: "Desc", director: "Director", producer: "Producer", releaseDate: "Release Date", score: "3", duration: "120", image: "https://image.tmdb.org/t/p/w600_and_h900_bestv2/npOnzAbLh6VOIu3naU5QaEcTepo.jpg", movieBanner: "https://image.tmdb.org/t/p/original/3cyjYtLWCBE1uvWINHFsFnE8LUK.jpg", people: [])
+    
+    
     
     NavigationStack {
         MovieDetailsView(movie: movie)

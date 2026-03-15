@@ -37,4 +37,26 @@ class URLSessionManager {
         
         return try decoder.decode([Movie].self, from: data)
     }
+    
+    
+    func getPeople(from urls: [String]) async throws -> [People] {
+        let decoder = JSONDecoder()
+        var people: [People] = []
+
+        for urlString in urls {
+            guard let url = URL(string: urlString) else { continue }
+
+            let (data, response) = try await session.data(from: url)
+
+            guard let httpResponse = response as? HTTPURLResponse,
+                  (200..<300).contains(httpResponse.statusCode) else {
+                throw URLError(.badServerResponse)
+            }
+
+            let person = try decoder.decode(People.self, from: data)
+            people.append(person)
+        }
+
+        return people
+    }
 }
