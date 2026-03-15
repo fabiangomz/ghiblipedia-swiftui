@@ -9,9 +9,13 @@ import SwiftUI
 
 @main
 struct ghiblipediaApp: App {
+    
+    @State private var favoriteViewModel = FavoriteViewModel()
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environment(favoriteViewModel)
         }
     }
 }

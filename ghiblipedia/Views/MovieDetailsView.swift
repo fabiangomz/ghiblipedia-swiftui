@@ -11,6 +11,7 @@ struct MovieDetailsView: View {
     
     let movie: Movie
     @State private var viewModel = MovieDetailsViewModel()
+    @Environment(FavoriteViewModel.self) private var favoriteViewModel
 
     var body: some View {
         ScrollView {
@@ -124,10 +125,10 @@ struct MovieDetailsView: View {
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
-                    
+                    favoriteViewModel.toggleFavorite(movie)
                 } label: {
-                    Image(systemName: "heart")
-                        .foregroundStyle(.primary)
+                    Image(systemName: favoriteViewModel.isFavorite(movie) ? "heart.fill" : "heart")
+                        .foregroundStyle(favoriteViewModel.isFavorite(movie) ? .red : .primary)
                 }
             }
         }
@@ -145,4 +146,5 @@ struct MovieDetailsView: View {
     NavigationStack {
         MovieDetailsView(movie: movie)
     }
+    .environment(FavoriteViewModel())
 }

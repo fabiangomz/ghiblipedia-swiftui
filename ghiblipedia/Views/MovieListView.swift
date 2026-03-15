@@ -9,11 +9,12 @@ import SwiftUI
 
 struct MovieListView: View {
 
-    @State private var vm = MovieListViewModel()
+    @State private var viewModel = MovieListViewModel()
+    @Environment(FavoriteViewModel.self) private var favoriteViewModel
 
     var body: some View {
         NavigationStack {
-            List(vm.movies) { movie in
+            List(viewModel.movies) { movie in
                 NavigationLink(value: movie) {
                     HStack(spacing: 12) {
                         AsyncImage(url: URL(string: movie.image)) { image in
@@ -41,15 +42,17 @@ struct MovieListView: View {
                         
                         Spacer()
                         
-                        Image(systemName: "heart.fill")
-                            .foregroundStyle(.red)
+                        if favoriteViewModel.isFavorite(movie) {
+                            Image(systemName: "heart.fill")
+                                .foregroundStyle(.red)
+                        }
                         
                     }
                     .padding(.vertical, )
                 }
                 
             }.task {
-                await vm.fetchMovies()
+                await viewModel.fetchMovies()
                 
             }
             // Importante usar navigation destination porque si no se cargan todas las vistas del stack
@@ -65,4 +68,5 @@ struct MovieListView: View {
 
 #Preview {
     MovieListView()
+        .environment(FavoriteViewModel())
 }
