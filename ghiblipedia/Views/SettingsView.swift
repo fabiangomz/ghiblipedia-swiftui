@@ -8,8 +8,44 @@
 import SwiftUI
 
 struct SettingsView: View {
+    @AppStorage("appearance") private var selectedAppearance: Appearance = .system
+
     var body: some View {
-        Text("Settings")
+        NavigationStack {
+            Form {
+              
+                Section {
+                    Picker("Appearance", selection: $selectedAppearance) {
+                        ForEach(Appearance.allCases) { mode in
+                            Text(mode.rawValue).tag(mode)
+                        }
+                    }
+                } header: {
+                    Text("Appearance")
+                }
+                
+                Section {
+                    Button {} label: {
+                        
+                        Label("Export favorites", systemImage: "square.and.arrow.up") }
+                    
+              
+                    Button(role: .destructive) {
+                        
+                    } label: {
+                        Label("Delete all favorites", systemImage: "trash")
+                            .foregroundStyle(.red)
+                    }
+                    
+                    
+                } header: {
+                    Text("Advanced Settings")
+                }
+               
+                  
+            }
+            .navigationTitle("Settings")
+        }
     }
 }
 
