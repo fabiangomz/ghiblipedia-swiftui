@@ -9,8 +9,9 @@ import SwiftUI
 
 struct MovieListView: View {
 
-    @State private var viewModel = MovieListViewModel()
+    var viewModel: MovieListViewModel
     @Environment(FavoriteViewModel.self) private var favoriteViewModel
+    @State private var selectedMovie: Movie?
 
     var body: some View {
         NavigationStack {
@@ -48,7 +49,29 @@ struct MovieListView: View {
                         }
                         
                     }
-                    .padding(.vertical, )
+                    .padding(.vertical)
+                   
+                }
+                .contextMenu {
+                    Button(role: favoriteViewModel.isFavorite(movie) ? .destructive : nil) {
+                        favoriteViewModel.toggleFavorite(movie)
+                    } label: {
+                        Label(favoriteViewModel.isFavorite(movie) ? "Remove from Favorites" : "Add to Favorites",
+                              systemImage: favoriteViewModel.isFavorite(movie) ? "heart.slash" : "heart")
+                    }
+                } preview: {
+                    MovieDetailsView(movie: movie)
+                        .environment(favoriteViewModel)
+                        .frame(width: 400, height: 600)
+                
+                }
+                .swipeActions(edge: .trailing) {
+                    Button {
+                        favoriteViewModel.toggleFavorite(movie)
+                    } label: {
+                        Image(systemName: favoriteViewModel.isFavorite(movie) ? "heart.slash" : "heart")
+                    }
+                    .tint(favoriteViewModel.isFavorite(movie) ? .red : .blue)
                 }
                 
             }.task {
@@ -67,6 +90,6 @@ struct MovieListView: View {
 }
 
 #Preview {
-    MovieListView()
+    MovieListView(viewModel: MovieListViewModel())
         .environment(FavoriteViewModel())
 }

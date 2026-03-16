@@ -10,15 +10,17 @@ import SwiftUI
 struct ContentView: View {
 
     @State private var text: String = ""
+    @State private var movieListViewModel = MovieListViewModel()
+
     var body: some View {
         TabView {
 
             Tab("Movies", systemImage: "film") {
-                MovieListView()
+                MovieListView(viewModel: movieListViewModel)
             }
 
             Tab("Favorites", systemImage: "heart") {
-                FavoriteListView()
+                FavoriteListView(movies: movieListViewModel.movies)
             }
             
             Tab("Settings", systemImage: "gear") {
