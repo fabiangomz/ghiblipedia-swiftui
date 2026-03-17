@@ -24,7 +24,7 @@ struct FavoriteCard: View {
                 .fill(Color.gray.opacity(0.3))
         }
         .id(uuid)
-        .frame(height: 260)
+        .aspectRatio(2/3, contentMode: .fit)
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .shadow(color: .black.opacity(0.15), radius: 4, y: 2)
         .onAppear {

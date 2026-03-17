@@ -22,7 +22,7 @@ struct FavoriteListView: View {
                 } else {
                     ScrollView {
                         
-                        LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 16) {
+                        LazyVGrid(columns: [GridItem(.adaptive(minimum: 150, maximum: 200))], spacing: 16) {
                             ForEach(favoriteMovies) { movie in
                                 NavigationLink(value: movie) {
                                     FavoriteCard(image: movie.image)
