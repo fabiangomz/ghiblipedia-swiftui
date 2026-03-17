@@ -48,5 +48,10 @@ class FavoriteViewModel {
 
         return csv
     }
+    
+    func deleteAllFavorites() {
+        favoriteIDs.removeAll()
+        UserDefaults.standard.removeObject(forKey: favoritesKey)
+    }
 }
 

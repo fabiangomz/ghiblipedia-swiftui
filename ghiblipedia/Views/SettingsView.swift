@@ -16,6 +16,7 @@ struct SettingsView: View {
     @State private var csvFile: CSVFile?
     @State private var showingExporter = false
     @State private var confettiTrigger = 0
+    @State private var showingDeleteConfirmation = false
     @Environment(\.presentToast) var presentToast
     
     let movies: [Movie]
@@ -50,7 +51,7 @@ struct SettingsView: View {
                     }
                     
                     Button(role: .destructive) {
-                        
+                        showingDeleteConfirmation = true
                     } label: {
                         Label("Delete all favorites", systemImage: "trash")
                             .foregroundStyle(.red)
@@ -64,6 +65,18 @@ struct SettingsView: View {
                   
             }
             .navigationTitle("Settings")
+            .alert("Delete All Favorites", isPresented: $showingDeleteConfirmation) {
+                Button("Delete", role: .destructive) {
+                    favoriteViewModel.deleteAllFavorites()
+                    presentToast(ToastValue(
+                        icon: Image(systemName: "checkmark.circle.fill"),
+                        message: "All favorites deleted"
+                    ))
+                }
+                Button("Cancel", role: .cancel) { }
+            } message: {
+                Text("Are you sure you want to delete all your favorites? This action cannot be undone.")
+            }
             .fileExporter(
                 isPresented: $showingExporter,
                 document: csvFile,
