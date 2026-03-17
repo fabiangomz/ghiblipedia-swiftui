@@ -6,9 +6,19 @@
 //
 
 import SwiftUI
+import UniformTypeIdentifiers
+import ConfettiSwiftUI
+import Toasts
 
 struct SettingsView: View {
     @AppStorage("appearance") private var selectedAppearance: Appearance = .system
+    @Environment(FavoriteViewModel.self) private var favoriteViewModel: FavoriteViewModel
+    @State private var csvFile: CSVFile?
+    @State private var showingExporter = false
+    @State private var confettiTrigger = 0
+    @Environment(\.presentToast) var presentToast
+    
+    let movies: [Movie]
 
     var body: some View {
         NavigationStack {
@@ -25,11 +35,20 @@ struct SettingsView: View {
                 }
                 
                 Section {
-                    Button {} label: {
-                        
-                        Label("Export favorites", systemImage: "square.and.arrow.up") }
+                    Button {
+                        if let csv = favoriteViewModel.favoritesCSVContent(from: movies) {
+                            csvFile = CSVFile(text: csv)
+                            showingExporter = true
+                        } else {
+                            presentToast(ToastValue(
+                                icon: Image(systemName: "heart.slash"),
+                                message: "No favorite movies to export"
+                            ))
+                        }
+                    } label: {
+                        Label("Export favorites", systemImage: "square.and.arrow.up")
+                    }
                     
-              
                     Button(role: .destructive) {
                         
                     } label: {
@@ -45,10 +64,38 @@ struct SettingsView: View {
                   
             }
             .navigationTitle("Settings")
+            .fileExporter(
+                isPresented: $showingExporter,
+                document: csvFile,
+                contentType: .commaSeparatedText,
+                defaultFilename: "favorites.csv"
+            ) { result in
+                switch result {
+                case .success:
+                    confettiTrigger += 1
+                    presentToast(ToastValue(
+                        icon: Image(systemName: "checkmark.circle.fill"),
+                        message: "Favorites exported successfully"
+                    ))
+                case .failure(let error):
+                    presentToast(ToastValue(
+                        icon: Image(systemName: "xmark.circle.fill"),
+                        message: "Export failed: \(error.localizedDescription)"
+                    ))
+                }
+            }
+            .confettiCannon(
+                trigger: $confettiTrigger,
+                confettis: [.text("🎉"), .text("😍"), .shape(.circle), .shape(.triangle)],
+                rainHeight: 600,
+                radius: 300
+            )
         }
     }
 }
 
 #Preview {
-    SettingsView()
+    SettingsView(movies: [])
+        .environment(FavoriteViewModel())
+        
 }

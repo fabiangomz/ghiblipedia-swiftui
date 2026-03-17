@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		1FA7FE132F69DA3700AE21B6 /* Toasts in Frameworks */ = {isa = PBXBuildFile; productRef = 1FA7FE122F69DA3700AE21B6 /* Toasts */; };
+		1FA7FE162F69DD4300AE21B6 /* ConfettiSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 1FA7FE152F69DD4300AE21B6 /* ConfettiSwiftUI */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		1F4D29462F50A96800259061 /* ghiblipedia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ghiblipedia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +28,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1FA7FE162F69DD4300AE21B6 /* ConfettiSwiftUI in Frameworks */,
+				1FA7FE132F69DA3700AE21B6 /* Toasts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +72,8 @@
 			);
 			name = ghiblipedia;
 			packageProductDependencies = (
+				1FA7FE122F69DA3700AE21B6 /* Toasts */,
+				1FA7FE152F69DD4300AE21B6 /* ConfettiSwiftUI */,
 			);
 			productName = ghiblipedia;
 			productReference = 1F4D29462F50A96800259061 /* ghiblipedia.app */;
@@ -94,6 +103,10 @@
 			);
 			mainGroup = 1F4D293D2F50A96800259061;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				1FA7FE112F69DA3700AE21B6 /* XCRemoteSwiftPackageReference "swiftui-toasts" */,
+				1FA7FE142F69DD4300AE21B6 /* XCRemoteSwiftPackageReference "ConfettiSwiftUI" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 1F4D29472F50A96800259061 /* Products */;
 			projectDirPath = "";
@@ -332,6 +345,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1FA7FE112F69DA3700AE21B6 /* XCRemoteSwiftPackageReference "swiftui-toasts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sunghyun-k/swiftui-toasts";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.2;
+			};
+		};
+		1FA7FE142F69DD4300AE21B6 /* XCRemoteSwiftPackageReference "ConfettiSwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/simibac/ConfettiSwiftUI.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1FA7FE122F69DA3700AE21B6 /* Toasts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1FA7FE112F69DA3700AE21B6 /* XCRemoteSwiftPackageReference "swiftui-toasts" */;
+			productName = Toasts;
+		};
+		1FA7FE152F69DD4300AE21B6 /* ConfettiSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1FA7FE142F69DD4300AE21B6 /* XCRemoteSwiftPackageReference "ConfettiSwiftUI" */;
+			productName = ConfettiSwiftUI;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1F4D293E2F50A96800259061 /* Project object */;
 }

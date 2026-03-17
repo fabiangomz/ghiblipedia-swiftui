@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Toasts
 
 @main
 struct ghiblipediaApp: App {
@@ -27,6 +28,7 @@ struct ghiblipediaApp: App {
             ContentView()
                 .environment(favoriteViewModel)
                 .preferredColorScheme(colorScheme)
+                .installToast(position: .bottom)
         }
     }
 }

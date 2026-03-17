@@ -31,28 +31,22 @@ class FavoriteViewModel {
         UserDefaults.standard.set(favoriteIDs, forKey: favoritesKey)
     }
     
-    func exportFavoritesCSV(from movies: [Movie]) -> URL? {
+    func favoritesCSVContent(from movies: [Movie]) -> String? {
         let favorites = movies.filter { movie in favoriteIDs.contains(movie.id) }
         if favorites.isEmpty { return nil }
 
         var csv = "Title,Director,Producer,Release Date,Score,Duration\n"
         for movie in favorites {
             let fields = [movie.title, movie.director, movie.producer, movie.releaseDate, movie.score, movie.duration]
-            let escapedFieds = fields.map { field in
+            let escapedFields = fields.map { field in
                 let escaped = field.replacingOccurrences(of: "\"", with: "\"\"")
                 return "\"\(escaped)\""
             }
-            let row = escapedFieds.joined(separator: ",")
+            let row = escapedFields.joined(separator: ",")
             csv.append(row + "\n")
         }
 
-        let url = FileManager.default.temporaryDirectory.appendingPathComponent("favorites.csv")
-        do {
-            try csv.write(to: url, atomically: true, encoding: .utf8)
-            return url
-        } catch {
-            return nil
-        }
+        return csv
     }
 }
 
