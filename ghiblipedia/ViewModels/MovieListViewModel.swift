@@ -28,7 +28,7 @@ class MovieListViewModel {
     }
 
     func fetchMovies(modelContext: ModelContext) async {
-        let cached = (try? modelContext.fetch(FetchDescriptor<Movie>())) ?? []
+        let cached = (try? modelContext.fetch(FetchDescriptor<Movie>(sortBy: [SortDescriptor(\.releaseDate)]))) ?? []
         
         if !cached.isEmpty {
             movies = cached
@@ -46,11 +46,28 @@ class MovieListViewModel {
             }
             try modelContext.save()
             
-            movies = (try? modelContext.fetch(FetchDescriptor<Movie>())) ?? []
+            movies = (try? modelContext.fetch(FetchDescriptor<Movie>(sortBy: [SortDescriptor(\.releaseDate)]))) ?? []
         } catch {
             errorMessage = error.localizedDescription
         }
 
         isLoading = false
+    }
+    
+    func refreshMovies(modelContext: ModelContext) async {
+        do {
+            let responses = try await URLSessionManager.shared.getMovies()
+            
+            try modelContext.delete(model: Movie.self)
+            
+            for response in responses {
+                modelContext.insert(Movie(from: response))
+            }
+            try modelContext.save()
+            
+            movies = (try? modelContext.fetch(FetchDescriptor<Movie>(sortBy: [SortDescriptor(\.releaseDate)]))) ?? []
+        } catch {
+            errorMessage = error.localizedDescription
+        }
     }
 }

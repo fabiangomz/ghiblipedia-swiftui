@@ -36,10 +36,6 @@ struct FavoriteListView: View {
                                     } label: {
                                         Label("Remove from Favorites", systemImage: "heart.slash")
                                     }
-                                } preview: {
-                                    MovieDetailsView(movie: movie)
-                                        .environment(favoriteViewModel)
-                                        .frame(width: 400, height: 600)
                                 }
                             }
                         }

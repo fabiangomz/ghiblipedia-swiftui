@@ -14,7 +14,7 @@ struct MovieListView: View {
     @Bindable var viewModel: MovieListViewModel
     @Environment(FavoriteViewModel.self) private var favoriteViewModel
     @Environment(\.modelContext) private var modelContext
-    @State private var selectedMovie: Movie?
+
 
     var body: some View {
         NavigationStack {
@@ -60,11 +60,6 @@ struct MovieListView: View {
                         Label(favoriteViewModel.isFavorite(movie) ? "Remove from Favorites" : "Add to Favorites",
                               systemImage: favoriteViewModel.isFavorite(movie) ? "heart.slash" : "heart")
                     }
-                } preview: {
-                    MovieDetailsView(movie: movie)
-                        .environment(favoriteViewModel)
-                        .frame(width: 400, height: 600)
-                
                 }
                 .swipeActions(edge: .trailing) {
                     Button {
@@ -77,7 +72,9 @@ struct MovieListView: View {
                 
             }.task {
                 await viewModel.fetchMovies(modelContext: modelContext)
-                
+            }
+            .refreshable {
+                await viewModel.refreshMovies(modelContext: modelContext)
             }
             // Importante usar navigation destination porque si no se cargan todas las vistas del stack
             .navigationDestination(for: Movie.self) {
