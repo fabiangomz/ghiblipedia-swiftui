@@ -11,8 +11,20 @@ import Foundation
 class MovieListViewModel {
     
     var movies: [Movie] = []
+    var searchText: String = ""
     var isLoading = false
     var errorMessage: String?
+
+    var filteredMovies: [Movie] {
+        if searchText.isEmpty { return movies }
+        else {
+            return movies.filter { movie in
+                movie.title.localizedCaseInsensitiveContains(searchText) ||
+                movie.originalTitle.localizedCaseInsensitiveContains(searchText) ||
+                movie.director.localizedCaseInsensitiveContains(searchText)
+            }
+        }
+    }
 
     func fetchMovies() async {
         isLoading = true 
