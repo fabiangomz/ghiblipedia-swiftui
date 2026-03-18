@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import Kingfisher
 
 struct MovieDetailsView: View {
     
@@ -18,29 +19,26 @@ struct MovieDetailsView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading) {
-                AsyncImage(url: URL(string: movie.movieBanner)) {
-                    image in
-                    image.resizable()
-                        .aspectRatio(contentMode: .fill)
-                    
-                } placeholder: {
-                    ProgressView()
-                }
-                .frame(height: 200)
-                .clipped()
+                KFImage(URL(string: movie.movieBanner))
+                    .placeholder {
+                        ProgressView()
+                    }
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(height: 200)
+                    .clipped()
             
                 
                 HStack(alignment: .bottom) {
-                    AsyncImage(url: URL(string: movie.image)) { image in
-                        image
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                    } placeholder: {
-                        ProgressView()
-                    }
-                    .frame(width: 100, height: 150)
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
-                    .shadow(radius: 12)
+                    KFImage(URL(string: movie.image))
+                        .placeholder {
+                            ProgressView()
+                        }
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 100, height: 150)
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                        .shadow(radius: 12)
                     
                     VStack(alignment: .leading, spacing: 4) {
                         Text(movie.title)

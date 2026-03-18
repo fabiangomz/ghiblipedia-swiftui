@@ -6,30 +6,22 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct FavoriteCard: View {
     let image: String
     
-    // forzar llamada
-    @State private var uuid = UUID()
-    
     var body: some View {
-        AsyncImage(url: URL(string: image)) { image in
-                image
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-          
-        } placeholder: {
-            Rectangle()
-                .fill(Color.gray.opacity(0.3))
-        }
-        .id(uuid)
-        .aspectRatio(2/3, contentMode: .fit)
-        .clipShape(RoundedRectangle(cornerRadius: 12))
-        .shadow(color: .black.opacity(0.15), radius: 4, y: 2)
-        .onAppear {
-            uuid = UUID()
-        }
+        KFImage(URL(string: image))
+            .placeholder {
+                Rectangle()
+                    .fill(Color.gray.opacity(0.3))
+            }
+            .resizable()
+            .aspectRatio(contentMode: .fill)
+            .aspectRatio(2/3, contentMode: .fit)
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .shadow(color: .black.opacity(0.15), radius: 4, y: 2)
     }
 }
 

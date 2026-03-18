@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import Kingfisher
 
 struct MovieListView: View {
 
@@ -20,17 +21,15 @@ struct MovieListView: View {
             List(viewModel.filteredMovies) { movie in
                 NavigationLink(value: movie) {
                     HStack(spacing: 12) {
-                        AsyncImage(url: URL(string: movie.image)) { image in
-                            image
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                        } placeholder: {
-                            Rectangle()
-                                .fill(Color.gray.opacity(0.3))
-                        }
-                        
-                        .frame(width: 80, height: 120)
-                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                        KFImage(URL(string: movie.image))
+                            .placeholder {
+                                Rectangle()
+                                    .fill(Color.gray.opacity(0.3))
+                            }
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 80, height: 120)
+                            .clipShape(RoundedRectangle(cornerRadius: 8))
                         
                         VStack(alignment: .leading, spacing: 4) {
                             Text(movie.title)
