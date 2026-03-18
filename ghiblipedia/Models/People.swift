@@ -5,18 +5,26 @@
 //  Created by Fabián Gómez Campo on 14/3/26.
 //
 
-nonisolated struct People: Codable, Identifiable, Sendable {
-    let id: String
-    let name: String
-    let gender: String
-    let age: String
-    let eyeColor: String
-    let hairColor: String
-    let films: [String]
+import Foundation
+import SwiftData
 
-    enum CodingKeys: String, CodingKey {
-        case id, name, gender, age, films
-        case eyeColor = "eye_color"
-        case hairColor = "hair_color"
+@Model
+class Person {
+    @Attribute(.unique) var id: String
+    var name: String
+    var gender: String
+    var age: String
+    var eyeColor: String
+    var hairColor: String
+    var films: [String]
+    
+    init(from response: PeopleResponse) {
+        self.id = response.id
+        self.name = response.name
+        self.gender = response.gender
+        self.age = response.age
+        self.eyeColor = response.eyeColor
+        self.hairColor = response.hairColor
+        self.films = response.films
     }
 }

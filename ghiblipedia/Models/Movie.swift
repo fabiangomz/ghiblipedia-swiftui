@@ -5,28 +5,48 @@
 //  Created by Fabián Gómez Campo on 26/2/26.
 //
 
-struct Movie: Codable, Identifiable, Hashable {
-    let id: String
-    let title: String
-    let originalTitle: String
-    let originalTitleRomanised: String
-    let description: String
-    let director: String
-    let producer: String
-    let releaseDate: String
-    let score: String
-    let duration: String
-    let image: String
-    let movieBanner: String
-    let people: [String]
+import Foundation
+import SwiftData
+
+@Model
+class Movie: Hashable {
+    static func == (lhs: Movie, rhs: Movie) -> Bool {
+        lhs.id == rhs.id
+    }
     
-    enum CodingKeys: String, CodingKey {
-        case id, title, description, director, producer, image, people
-        case originalTitle = "original_title"
-        case originalTitleRomanised = "original_title_romanised"
-        case releaseDate = "release_date"
-        case score = "rt_score"
-        case duration = "running_time"
-        case movieBanner = "movie_banner"
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    
+    @Attribute(.unique) var id: String
+    var title: String
+    var originalTitle: String
+    var originalTitleRomanised: String
+    var movieDescription: String
+    var director: String
+    var producer: String
+    var releaseDate: String
+    var score: String
+    var duration: String
+    var image: String
+    var movieBanner: String
+    var people: [String]
+    var isFavorite: Bool
+    
+    init(from response: MovieResponse) {
+        self.id = response.id
+        self.title = response.title
+        self.originalTitle = response.originalTitle
+        self.originalTitleRomanised = response.originalTitleRomanised
+        self.movieDescription = response.description
+        self.director = response.director
+        self.producer = response.producer
+        self.releaseDate = response.releaseDate
+        self.score = response.score
+        self.duration = response.duration
+        self.image = response.image
+        self.movieBanner = response.movieBanner
+        self.people = response.people
+        self.isFavorite = false
     }
 }

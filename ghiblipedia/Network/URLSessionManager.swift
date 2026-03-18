@@ -21,11 +21,7 @@ class URLSessionManager {
     }
     
     
-    func getMovies() async throws -> [Movie] {
-       /* guard let url = URL(string: "\(baseURL)/films") else {
-            throw URLError(.badURL)
-        } */
-        
+    func getMovies() async throws -> [MovieResponse] {
         let (data, response) = try await session.data(from: Constants.Urls.moviesUrl)
         
         guard let httpResponse = response as? HTTPURLResponse,
@@ -33,15 +29,13 @@ class URLSessionManager {
             throw URLError(.badServerResponse)
         }
         
-        let decoder = JSONDecoder()
-        
-        return try decoder.decode([Movie].self, from: data)
+        return try JSONDecoder().decode([MovieResponse].self, from: data)
     }
     
     
-    func getPeople(from urls: [String]) async throws -> [People] {
+    func getPeople(from urls: [String]) async throws -> [PeopleResponse] {
         let decoder = JSONDecoder()
-        var people: [People] = []
+        var people: [PeopleResponse] = []
 
         for urlString in urls {
             guard let url = URL(string: urlString) else { continue }
@@ -53,7 +47,7 @@ class URLSessionManager {
                 throw URLError(.badServerResponse)
             }
 
-            let person = try decoder.decode(People.self, from: data)
+            let person = try decoder.decode(PeopleResponse.self, from: data)
             people.append(person)
         }
 

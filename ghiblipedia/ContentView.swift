@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ContentView: View {
 
@@ -35,4 +36,5 @@ struct ContentView: View {
 #Preview {
     ContentView()
         .environment(FavoriteViewModel())
+        .modelContainer(for: [Movie.self, Person.self], inMemory: true)
 }

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 import UniformTypeIdentifiers
 import ConfettiSwiftUI
 import Toasts
@@ -110,5 +111,5 @@ struct SettingsView: View {
 #Preview {
     SettingsView(movies: [])
         .environment(FavoriteViewModel())
-        
+        .modelContainer(for: [Movie.self, Person.self], inMemory: true)
 }

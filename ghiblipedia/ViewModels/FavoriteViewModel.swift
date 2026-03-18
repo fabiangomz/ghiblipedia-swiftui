@@ -37,7 +37,7 @@ class FavoriteViewModel {
 
         var csv = "Title,Director,Producer,Release Date,Score,Duration\n"
         for movie in favorites {
-            let fields = [movie.title, movie.director, movie.producer, movie.releaseDate, movie.score, movie.duration]
+            let fields: [String] = [movie.title, movie.director, movie.producer, movie.releaseDate, movie.score, movie.duration]
             let escapedFields = fields.map { field in
                 let escaped = field.replacingOccurrences(of: "\"", with: "\"\"")
                 return "\"\(escaped)\""

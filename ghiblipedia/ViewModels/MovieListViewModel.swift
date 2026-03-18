@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftData
 
 @Observable
 class MovieListViewModel {
@@ -26,13 +27,26 @@ class MovieListViewModel {
         }
     }
 
-    func fetchMovies() async {
-        isLoading = true 
+    func fetchMovies(modelContext: ModelContext) async {
+        let cached = (try? modelContext.fetch(FetchDescriptor<Movie>())) ?? []
+        
+        if !cached.isEmpty {
+            movies = cached
+            return
+        }
+        
+        isLoading = true
         errorMessage = nil
 
         do {
-            movies = try await URLSessionManager.shared.getMovies()
-            //print(movies)
+            let responses = try await URLSessionManager.shared.getMovies()
+            
+            for response in responses {
+                modelContext.insert(Movie(from: response))
+            }
+            try modelContext.save()
+            
+            movies = (try? modelContext.fetch(FetchDescriptor<Movie>())) ?? []
         } catch {
             errorMessage = error.localizedDescription
         }

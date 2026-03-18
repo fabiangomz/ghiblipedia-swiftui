@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct FavoriteListView: View {
     let movies: [Movie]
@@ -59,7 +60,7 @@ struct FavoriteListView: View {
 }
 
 #Preview {
-    let movie = Movie(
+    let response = MovieResponse(
         id: "2baf70d1-42bb-4437-b551-e5fed5a87abe",
         title: "Castle in the Sky",
         originalTitle: "天空の城ラピュタ",
@@ -77,7 +78,9 @@ struct FavoriteListView: View {
             "https://ghibliapi.vercel.app/people/fe93adf2-2f3a-4ec4-9f68-5422f1b87c01"
         ]
     )
+    let movie = Movie(from: response)
 
     FavoriteListView(movies: [movie])
         .environment(FavoriteViewModel())
+        .modelContainer(for: [Movie.self, Person.self], inMemory: true)
 }

@@ -6,12 +6,14 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct MovieDetailsView: View {
     
     let movie: Movie
     @State private var viewModel = MovieDetailsViewModel()
     @Environment(FavoriteViewModel.self) private var favoriteViewModel
+    @Environment(\.modelContext) private var modelContext
 
     var body: some View {
         ScrollView {
@@ -77,7 +79,7 @@ struct MovieDetailsView: View {
                         .font(.title3)
                         .fontWeight(.semibold)
 
-                    Text(movie.description)
+                    Text(movie.movieDescription)
                         .font(.body)
                         .foregroundStyle(.secondary)
     
@@ -120,7 +122,7 @@ struct MovieDetailsView: View {
             .padding(.bottom)
         }
         .task {
-            await viewModel.fetchPeople(from: movie.people)
+            await viewModel.fetchPeople(from: movie.people, modelContext: modelContext)
         }
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
@@ -138,13 +140,20 @@ struct MovieDetailsView: View {
 }
 
 #Preview {
-    
-    let movie = Movie(id: "1", title: "Title", originalTitle: "Original title", originalTitleRomanised: "Original title romanji", description: "Desc", director: "Director", producer: "Producer", releaseDate: "Release Date", score: "3", duration: "120", image: "https://image.tmdb.org/t/p/w600_and_h900_bestv2/npOnzAbLh6VOIu3naU5QaEcTepo.jpg", movieBanner: "https://image.tmdb.org/t/p/original/3cyjYtLWCBE1uvWINHFsFnE8LUK.jpg", people: [])
-    
-    
+    let response = MovieResponse(
+        id: "1", title: "Title", originalTitle: "Original title",
+        originalTitleRomanised: "Original title romanji", description: "Desc",
+        director: "Director", producer: "Producer", releaseDate: "Release Date",
+        score: "3", duration: "120",
+        image: "https://image.tmdb.org/t/p/w600_and_h900_bestv2/npOnzAbLh6VOIu3naU5QaEcTepo.jpg",
+        movieBanner: "https://image.tmdb.org/t/p/original/3cyjYtLWCBE1uvWINHFsFnE8LUK.jpg",
+        people: []
+    )
+    let movie = Movie(from: response)
     
     NavigationStack {
         MovieDetailsView(movie: movie)
     }
     .environment(FavoriteViewModel())
+    .modelContainer(for: [Movie.self, Person.self], inMemory: true)
 }

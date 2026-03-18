@@ -6,11 +6,13 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct MovieListView: View {
 
     @Bindable var viewModel: MovieListViewModel
     @Environment(FavoriteViewModel.self) private var favoriteViewModel
+    @Environment(\.modelContext) private var modelContext
     @State private var selectedMovie: Movie?
 
     var body: some View {
@@ -75,7 +77,7 @@ struct MovieListView: View {
                 }
                 
             }.task {
-                await viewModel.fetchMovies()
+                await viewModel.fetchMovies(modelContext: modelContext)
                 
             }
             // Importante usar navigation destination porque si no se cargan todas las vistas del stack
@@ -92,4 +94,5 @@ struct MovieListView: View {
 #Preview {
     MovieListView(viewModel: MovieListViewModel())
         .environment(FavoriteViewModel())
+        .modelContainer(for: [Movie.self, Person.self], inMemory: true)
 }
