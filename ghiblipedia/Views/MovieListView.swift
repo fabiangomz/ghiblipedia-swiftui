@@ -9,13 +9,13 @@ import SwiftUI
 
 struct MovieListView: View {
 
-    var viewModel: MovieListViewModel
+    @Bindable var viewModel: MovieListViewModel
     @Environment(FavoriteViewModel.self) private var favoriteViewModel
     @State private var selectedMovie: Movie?
 
     var body: some View {
         NavigationStack {
-            List(viewModel.movies) { movie in
+            List(viewModel.filteredMovies) { movie in
                 NavigationLink(value: movie) {
                     HStack(spacing: 12) {
                         AsyncImage(url: URL(string: movie.image)) { image in
@@ -84,7 +84,7 @@ struct MovieListView: View {
                 MovieDetailsView(movie: movie)
             }
             .navigationTitle("Movies")
-            .searchable(text: Binding.constant(""), placement: .navigationBarDrawer(displayMode: .always), prompt: "Search")
+            .searchable(text: $viewModel.searchText, placement: .navigationBarDrawer(displayMode: .always), prompt: "Search movies")
         }
     }
 }
