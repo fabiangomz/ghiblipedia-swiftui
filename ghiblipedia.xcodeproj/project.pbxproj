@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F3514FB2F6B30E200E6E5F9 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 1F3514FA2F6B30E200E6E5F9 /* Kingfisher */; };
 		1FA7FE132F69DA3700AE21B6 /* Toasts in Frameworks */ = {isa = PBXBuildFile; productRef = 1FA7FE122F69DA3700AE21B6 /* Toasts */; };
 		1FA7FE162F69DD4300AE21B6 /* ConfettiSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 1FA7FE152F69DD4300AE21B6 /* ConfettiSwiftUI */; };
 /* End PBXBuildFile section */
@@ -28,6 +29,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F3514FB2F6B30E200E6E5F9 /* Kingfisher in Frameworks */,
 				1FA7FE162F69DD4300AE21B6 /* ConfettiSwiftUI in Frameworks */,
 				1FA7FE132F69DA3700AE21B6 /* Toasts in Frameworks */,
 			);
@@ -74,6 +76,7 @@
 			packageProductDependencies = (
 				1FA7FE122F69DA3700AE21B6 /* Toasts */,
 				1FA7FE152F69DD4300AE21B6 /* ConfettiSwiftUI */,
+				1F3514FA2F6B30E200E6E5F9 /* Kingfisher */,
 			);
 			productName = ghiblipedia;
 			productReference = 1F4D29462F50A96800259061 /* ghiblipedia.app */;
@@ -106,6 +109,7 @@
 			packageReferences = (
 				1FA7FE112F69DA3700AE21B6 /* XCRemoteSwiftPackageReference "swiftui-toasts" */,
 				1FA7FE142F69DD4300AE21B6 /* XCRemoteSwiftPackageReference "ConfettiSwiftUI" */,
+				1F3514F92F6B30E200E6E5F9 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 1F4D29472F50A96800259061 /* Products */;
@@ -349,6 +353,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		1F3514F92F6B30E200E6E5F9 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.8.0;
+			};
+		};
 		1FA7FE112F69DA3700AE21B6 /* XCRemoteSwiftPackageReference "swiftui-toasts" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/sunghyun-k/swiftui-toasts";
@@ -368,6 +380,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		1F3514FA2F6B30E200E6E5F9 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1F3514F92F6B30E200E6E5F9 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
 		1FA7FE122F69DA3700AE21B6 /* Toasts */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 1FA7FE112F69DA3700AE21B6 /* XCRemoteSwiftPackageReference "swiftui-toasts" */;

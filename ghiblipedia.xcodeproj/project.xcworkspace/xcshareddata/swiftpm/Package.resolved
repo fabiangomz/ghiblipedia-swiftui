@@ -1,5 +1,5 @@
 {
-  "originHash" : "0f091cadede0c3a16cdd61bd74b54ffdf4cb66b29b9cad6f2833161a8d3e33ff",
+  "originHash" : "fba492fefe5cb8ed88959df358bfaf308f0492dcc74ede7b7674eb7017f808d3",
   "pins" : [
     {
       "identity" : "confettiswiftui",
@@ -8,6 +8,15 @@
       "state" : {
         "revision" : "9ae5bc2ce2149980884d4612321c3a266d6bf82c",
         "version" : "3.0.0"
+      }
+    },
+    {
+      "identity" : "kingfisher",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/onevcat/Kingfisher.git",
+      "state" : {
+        "revision" : "c92b84898e34ab46ff0dad86c02a0acbe2d87008",
+        "version" : "8.8.0"
       }
     },
     {
